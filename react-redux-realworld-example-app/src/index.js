@@ -6,7 +6,7 @@ import { createStore } from 'redux';
 
 const defaultState = {
 
-appName: 'conduit',
+appName: 'vessel',
 articles: null
 };
 const reducer = function(state = defaultState, action) {
