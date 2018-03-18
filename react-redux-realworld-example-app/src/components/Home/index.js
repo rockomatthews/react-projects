@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 const Promise = global.Promise;
 
 const mapStateToProps = state => ({
-    appName: state.appName
+    appName: state.common.appName
   });
 
 const mapDispatchToProps = dispatch => ({
@@ -24,12 +24,9 @@ class Home extends React.Component {
         return (
         <div className="home-page">
             <Banner appName={this.props.appName} />
-        
-
             <div className="container page">
                 <div className="row">
                     <MainView />
-
                     <div className="col-md-3">
                         <div className="sidebar">
                             <p>Popular Tags</p>
