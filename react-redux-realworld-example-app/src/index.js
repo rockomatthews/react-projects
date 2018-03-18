@@ -12,7 +12,7 @@ import Login from './components/Login';
 ReactDOM.render((
 <Provider store={store}>
     <Router history={hashHistory}>
-        <Route Path="/" component={App}>
+        <Route path="/" component={App}>
             <IndexRoute component={Home} />
             <Route path="login" component={Login} /> 
         </Route>
