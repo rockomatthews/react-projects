@@ -38,7 +38,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header appName={this.props.appName} currentUser={this.props.currentUser} />
+        <Header
+          currentUser={this.props.currentUser} 
+          appName={this.props.appName} />
        {this.props.children}
       </div>
     );
