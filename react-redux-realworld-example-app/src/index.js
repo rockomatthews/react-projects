@@ -7,7 +7,6 @@ import App from './components/App';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
-import Settings from './components/Settings';
 import store from './store';
 
 
