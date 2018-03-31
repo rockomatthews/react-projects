@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const defaultState = {
     appName: 'Vessel',
     token:  null

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { Link } from 'react-router';
 import ListErrors from './ListErrors';
 import React from 'react';
@@ -19,7 +21,7 @@ class Login extends React.Component {
     constructor() {
         super();
         this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
-        this.ChangePassword = ev => this.props.onChangePassword(ev.target.value);
+        this.changePassword = ev => this.props.onChangePassword(ev.target.value);
         this.submitForm = (email, password) => ev => {
             ev.preventDefault();
             this.props.onSubmit(email, password);
@@ -36,12 +38,12 @@ class Login extends React.Component {
                         <div className="col-md-6 offset-md-3 col-xs-12">
                             <h1 className="text-xs-center">Sign In</h1>
                             <p className="text-xs-center">
-                                <a>
-                                    Want an account?
-                                </a>
+                            <Link to="register">
+                                Want an account?
+                            </Link>
                             </p>
                             
-                            <ListErrors errors={this.props.errors} />
+                            <ListErrors errors={this.props.errors}></ListErrors>
                             
                             <form onSubmit={this.submitForm(email, password)}>
                                 <fieldset>
@@ -51,7 +53,7 @@ class Login extends React.Component {
                                             type="email"
                                             placeholder="Email"
                                             value={email}
-                                            onChange={this.onChangeEmail}
+                                            onChange={this.changeEmail}
                                         />
                                     </fieldset>
                                     <fieldset className="form-group">
@@ -60,7 +62,7 @@ class Login extends React.Component {
                                             type="password"
                                             placeholder="Password"
                                             value={password}
-                                            onChange={this.password}
+                                            onChange={this.changePassword}
                                         />
                                     </fieldset>
                                     <button

@@ -47,7 +47,7 @@ class Register extends React.Component {
                 </Link>
               </p>
 
-              <ListErrors errors={this.props.errors} />
+              <ListErrors errors={this.props.errors}></ListErrors>
 
               <form onSubmit={this.submitForm(username, email, password)}>
                 <fieldset>
