@@ -14,7 +14,7 @@ const promiseMiddleware = store => next => action => {
                 store.dispatch(action);
             }
         );
-        return
+        return;
     }
     next(action);
 };

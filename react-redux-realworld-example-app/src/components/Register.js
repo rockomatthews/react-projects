@@ -16,23 +16,31 @@ const mapDispatchToProps = dispatch => ({
   onSubmit: (username, email, password) => {
     const payload = agent.Auth.register(username, email, password);
     dispatch({ type: 'REGISTER', payload })
-  }
+  },
+  onUnload: () =>
+    dispatch({ type: 'REGISTER_PAGE_UNLOADED' })
 });
 
 class Register extends React.Component {
   constructor() {
     super();
-    this.changeEmail = event => this.props.onChangeEmail(event.target.value);
-    this.changePassword = event => this.props.onChangePassword(event.target.value);
-    this.changeUsername = event => this.props.onChangeUsername(event.target.value);
-    this.submitForm = (username, email, password) => event => {
-      event.preventDefault();
+    this.changeEmail = ev => this.props.onChangeEmail(ev.target.value);
+    this.changePassword = ev => this.props.onChangePassword(ev.target.value);
+    this.changeUsername = ev => this.props.onChangeUsername(ev.target.value);
+    this.submitForm = (username, email, password) => ev => {
+      ev.preventDefault();
       this.props.onSubmit(username, email, password);
     }
   }
 
+  componentWillUnmount() {
+    this.props.onUnload();
+  }
+
   render() {
-    const { email, username, password } = this.props;
+    const email = this.props.email;
+    const password = this.props.password;
+    const username = this.props.username;
 
     return (
       <div className="auth-page">
@@ -47,7 +55,7 @@ class Register extends React.Component {
                 </Link>
               </p>
 
-              <ListErrors errors={this.props.errors}></ListErrors>
+              <ListErrors errors={this.props.errors} />
 
               <form onSubmit={this.submitForm(username, email, password)}>
                 <fieldset>
@@ -97,4 +105,4 @@ class Register extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);   
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

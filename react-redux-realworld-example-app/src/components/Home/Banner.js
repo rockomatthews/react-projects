@@ -1,11 +1,14 @@
 import React from 'react';
 
-const Banner = ({ appName }) =>  {
+const Banner = ({ appName, token }) => {
+    if (token) {
+        return null;
+    }
     return (
         <div className="banner">
             <div className="container">
                 <h1 className="logo-font">
-                    { appName.toLowerCase() }
+                    {appName.toLowerCase()}
                 </h1>
                 <p>a place for tag lovers</p>
             </div>

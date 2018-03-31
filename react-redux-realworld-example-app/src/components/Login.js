@@ -14,7 +14,9 @@ const mapDispatchToProps = dispatch => ({
     onChangePassword: value => 
         dispatch({ type: 'UPDATE_FIELD_AUTH', key: 'password', value }),
     onSubmit: (email, password) =>
-        dispatch({ type:'LOGIN', payload: agent.Auth.login(email, password) })
+        dispatch({ type:'LOGIN', payload: agent.Auth.login(email, password) }),
+    onUnload: () =>
+        dispatch({ type: 'LOGIN_PAGE_UNLOADED' })
 });
 
 class Login extends React.Component {
@@ -28,12 +30,16 @@ class Login extends React.Component {
         };
     }
     
+    componentWillUnmount() {
+        this.props.onUnload();
+    }
+
     render() {
         const email = this.props.email;
         const password = this.props.password;
         return (
             <div className="auth-page">
-                <div className="container">
+                <div className="container page">
                     <div className="row">
                         <div className="col-md-6 offset-md-3 col-xs-12">
                             <h1 className="text-xs-center">Sign In</h1>
@@ -77,7 +83,7 @@ class Login extends React.Component {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
