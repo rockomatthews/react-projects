@@ -1,4 +1,6 @@
-import { Link } from 'react-rotuer';
+/* eslint-disable */
+
+import { Link } from 'react-router';
 import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
@@ -19,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
 class Article extends React.Component {
     componentWillMount() {
         this.props.onload(Promise.all([
-            agent.Article.get(this.props.params.id),
+            agent.Articles.get(this.props.params.id),
             agent.Comments.forArticle(this.props.params.id)
         ]));
     }
@@ -29,21 +31,19 @@ class Article extends React.Component {
     }
 
     render() {
-        if (!this.props.articles) {
+        if (!this.props.article) {
             return null;
         }
 
         const markup = { __html: marked(this.props.article.body) };
-        const canModify = this.props.currentUser &&
-            this.currentUser.username === this.props.article.author.username;
+        // const canModify = this.props.currentUser &&
+            // this.currentUser.username === this.props.article.author.username;
         return (
             <div className="article-page">
                 <div className="banner">
                     <div className="container">
                         <h1>{this.props.article.title}</h1>
-                        <ArticleMeta
-                            article={this.props.article}
-                            canModify={canModify} />
+                        
                     </div>
                 </div>
 
@@ -72,11 +72,7 @@ class Article extends React.Component {
                 <hr />
 
                 <div className="row">
-                    <CommentsContainer
-                        comments={this.props.comments || []}
-                        errors={this.props.commentErrors}
-                        slug={this.props.params.id}
-                        currentUser={this.props.currentUser} />
+                    
                 </div>
             </div>
         );
