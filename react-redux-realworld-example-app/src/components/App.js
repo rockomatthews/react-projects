@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import agent from '../agent'
 
 const mapStateToProps = state => ({
+  appLoaded: state.common.appLoaded,
   appName: state.common.appName,
   currentUser: state.common.currentUser,
   redirectTo: state.common.redirectTo
@@ -38,14 +39,24 @@ class App extends React.Component {
 
 
   render() {
-    return (
-      <div>
-        <Header
-          currentUser={this.props.currentUser} 
-          appName={this.props.appName} />
-       {this.props.children}
-      </div>
-    );
+    if (this.props.appLoaded) {
+      return (
+        <div>
+          <Header
+            currentUser={this.props.currentUser} 
+            appName={this.props.appName} />
+         {this.props.children}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Header
+            currentUser={this.props.currentUser} 
+            appName={this.props.appName} />
+        </div>
+      );
+    }
   }
 }
 
