@@ -8,6 +8,20 @@ const mapStateToProps = state => ({
     token: state.common.token
 });
 
+const TagFilterTab = props => {
+    if (!props.tag) {
+        return null;
+    }
+
+    return (
+        <li className="nav-item">
+            <a href="" className="nav-link active">
+                <i className="ion-pound"></i> {props.tag}
+            </a>
+        </li>
+    );
+}
+
 const YourFeedTab = props => {
     if (props.token) {
         const clickHandler = ev => {
@@ -56,6 +70,7 @@ const MainView = props => {
         <div className="col-md-9">
             <div className="feed-toggle">
                 <ul className="nav nav-pills outline-active">
+                    
                     <YourFeedTab
                         token={props.token}
                         tab={props.tab}
@@ -64,10 +79,14 @@ const MainView = props => {
                     <GlobalFeedTab
                         tab={props.tab}
                         onTabClick={props.onTabClick} />
+                    
+                    <TagFilterTab tag={props.tag} />
+                    
                 </ul>
             </div>
 
-            <ArticleList articles={props.articles} />
+            <ArticleList
+                articles={props.articles} />
         </div>
     );
 };
