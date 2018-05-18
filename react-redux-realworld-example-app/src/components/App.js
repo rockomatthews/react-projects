@@ -43,21 +43,20 @@ class App extends React.Component {
       return (
         <div>
           <Header
-            currentUser={this.props.currentUser} 
-            appName={this.props.appName} />
-         {this.props.children}
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Header
-            currentUser={this.props.currentUser} 
-            appName={this.props.appName} />
+            appName={this.props.appName}
+            currentUser={this.props.currentUser} />
+          {this.props.children}
         </div>
       );
     }
-  }
+    return (
+      <div>
+        <Header
+          appName={this.props.appName}
+          currentUser={this.props.currentUser} />
+      </div>
+      );
+    }
 }
 
 App.contextTypes = {

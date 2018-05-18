@@ -3,25 +3,6 @@ import React from 'react';
 import agent from '../../agent';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-    ...state.articleList,
-    token: state.common.token
-});
-
-const TagFilterTab = props => {
-    if (!props.tag) {
-        return null;
-    }
-
-    return (
-        <li className="nav-item">
-            <a href="" className="nav-link active">
-                <i className="ion-pound"></i> {props.tag}
-            </a>
-        </li>
-    );
-}
-
 const YourFeedTab = props => {
     if (props.token) {
         const clickHandler = ev => {
@@ -61,11 +42,37 @@ const GlobalFeedTab = props => {
     );
 }
 
+const TagFilterTab = props => {
+    if (!props.tag) {
+        return null;
+    }
+
+    return (
+        <li className="nav-item">
+            <a href="" className="nav-link active">
+                <i className="ion-pound"></i> {props.tag}
+            </a>
+        </li>
+    );
+}
+
+const mapStateToProps = state => ({
+    ...state.articleList,
+    token: state.common.token
+});
+
 const mapDispatchToProps = dispatch => ({
+    onSetPage: (tab, p) => dispatch({
+        type: 'SET_PAGE',
+        page: p,
+        payload: tab === 'feed' ? agent.Articles.feed(p) : agent.Articles.all(p)
+    }),
+    
     onTabClick: (tab, payload) => dispatch({ type: 'CHANGE_TAB', tab, payload })
 });
 
 const MainView = props => {
+    const onSetPage = page => props.onSetPage(props.tab, page);
     return (
         <div className="col-md-9">
             <div className="feed-toggle">
@@ -86,7 +93,10 @@ const MainView = props => {
             </div>
 
             <ArticleList
-                articles={props.articles} />
+                articles={props.articles}
+                articlesCount={props.articlesCount}
+                currentPage={props.currentPage}
+                onSetPage={onSetPage} />
         </div>
     );
 };
