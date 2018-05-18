@@ -1,8 +1,7 @@
 /* eslint-disable */
 
-import { Link } from 'react-router';
 import React from 'react';
-// import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 const ArticlePreview = props => {
   const article = props.article;
