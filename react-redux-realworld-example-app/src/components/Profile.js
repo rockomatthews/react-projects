@@ -6,25 +6,6 @@ import { Link } from 'react-router';
 import agent from '../agent';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => ({
-    ...state.articleList,
-    currentUser: state.common.currentUser,
-    profile: state.profile
-});
-
-const mapDispatchToProps = dispatch => ({
-    onFollow: username => dispatch({
-        type: 'FOLLOW_USER',
-        payload: agent.Profile.follow(username)
-    }),
-    onLoad: payload => dispatch({ type: 'PROFILE_PAGE_LOADED', payload }),
-    onUnfollow: username => dispatch({
-        type: 'UNFOLLOW_USER',
-        payload: agent.Profile.unfollow(username)
-    }),
-    onUnload: () => dispatch({ type: 'PROFILE_PAGE_UNLOADED' })
-});
-
 const EditProfileSettings = props => {
     if (props.isUser) {
         return (
@@ -35,9 +16,8 @@ const EditProfileSettings = props => {
             </Link>
         );
     }
-
     return null;
-}
+};
 
 const FollowUserButton = props => {
     if (props.isUser) {
@@ -53,7 +33,7 @@ const FollowUserButton = props => {
 
     const handleClick = ev => {
         ev.preventDefault();
-        if (props.following) {
+        if (props.user.following) {
             props.unfollow(props.user.username);
         } else {
             props.follow(props.user.username);
@@ -70,6 +50,27 @@ const FollowUserButton = props => {
         </button>
     );
 }
+
+const mapStateToProps = state => ({
+    ...state.articleList,
+    currentUser: state.common.currentUser,
+    profile: state.profile
+});
+
+const mapDispatchToProps = dispatch => ({
+    onFollow: username => dispatch({
+        type: 'FOLLOW_USER',
+        payload: agent.Profile.follow(username)
+    }),
+    onLoad: payload => dispatch({ type: 'PROFILE_PAGE_LOADED', payload }),
+    onSetPage: (page, payload) => dispatch({ type: 'SET_PAGE', page, payload }),
+    onUnfollow: username => dispatch({
+        type: 'UNFOLLOW_USER',
+        payload: agent.Profile.unfollow(username)
+    }),
+    onUnload: () => dispatch({ type: 'PROFILE_PAGE_UNLOADED' })
+});
+
 
 class Profile extends React.Component {
     componentWillMount() {
@@ -105,6 +106,11 @@ class Profile extends React.Component {
         );
     }
 
+    onSetPage(page) {
+        const promise = agent.Articles.byAuthor(this.props.profile.username, page);
+        this.props.onSetPage(page, promise);
+    }
+
     render() {
         const profile = this.props.profile;
         if (!profile) {
@@ -113,6 +119,8 @@ class Profile extends React.Component {
 
         const isUser = this.props.currentUser &&
             this.props.profile.username === this.props.currentUser.username;
+
+        const onSetPage = page => this.onSetPage(page)
 
         return (
             <div className="profile-page">
@@ -144,7 +152,11 @@ class Profile extends React.Component {
                                 {this.renderTabs()}
                             </div>
 
-                            <ArticleList articles={this.props.articles} />
+                            <ArticleList
+                                articles={this.props.articles}
+                                articlesCount={this.props.articlesCount}
+                                currentPage={this.props.currentPage}
+                                onSetPage={onSetPage} />
                         </div>
                     </div>
                 </div>
