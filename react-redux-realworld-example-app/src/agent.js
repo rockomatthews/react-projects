@@ -34,20 +34,21 @@ const Articles = {
   all: page =>
     requests.get(`/articles?${limit(10, page)}`),
   byAuthor: (author, page) =>
-    requests.get(`/articles?author=${encode(author)}&${limit(10, page)}`),
+    requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
   byTag: (tag, page) =>
     requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`),
   del: slug =>
     requests.del(`/articles/${slug}`),
   favoritedBy: (author, page) =>
     requests.get(`/articles?favorited=${encode(author)}&${limit(10, page)}`),
-  feed: page =>
-    requests.get(`/articles/feed?${limit(10, page)}`),
+  feed: () =>
+    requests.get('/articles/feed?limit=10&offset=0'),
   get: slug =>
     requests.get(`/articles/${slug}`),
-  create: article => requests.post('article', { article }),
   update: article =>
-    requests.put(`/articles/${article.slug}`, { article: omitSlug })
+    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
+  create: article =>
+    requests.post('/articles', { article })
 };
 
 
